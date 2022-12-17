@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
+  "id": "BeatSaberMod",
+  "name": "BeatSaberMod",
+  "author": "TODO",
+  "version": "1.0.0",
+  "description": "TODO",
+  "gameVersion": "1.27.0",
+  "dependsOn": {
+    "BSIPA": "^4.2.2"
+  }
+}
