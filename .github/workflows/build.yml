@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: BeatSaberMod
     runs-on: windows-latest
     steps:
     - name: Check out
@@ -18,7 +19,7 @@ jobs:
       run: ${{ github.workspace }}\.github\workflows\set_up_env.ps1 "${{ github.workspace }}\BeatSaberMod\manifest.json"
 
     - name: Fetch Beat Saber Bindings
-      run: git clone https://${{ github.actor }}:${{ secrets.PRIVATE_GITHUB_TOKEN }}@github.com/nicoco007/BeatSaberBindings --branch v${{ env.GAME_VERSION }} --single-branch '${{ runner.temp }}\BeatSaberBindings\Beat Saber_Data\Managed'
+      run: git clone https://${{ secrets.PRIVATE_GITHUB_TOKEN }}@github.com/nicoco007/BeatSaberBindings --branch v${{ env.GAME_VERSION }} --single-branch '${{ runner.temp }}\BeatSaberBindings\Beat Saber_Data\Managed'
 
     - name: Download dependencies
       uses: nicoco007/download-beatmods-deps@main
@@ -32,7 +33,7 @@ jobs:
     - name: Upload Debug
       uses: actions/upload-artifact@v3
       with:
-        name: BeatSaberBeatSaberMod-${{ env.ZIP_VERSION }}-DEBUG
+        name: BeatSaberMod-${{ env.ZIP_VERSION }}-DEBUG
         path: ${{ github.workspace }}\BeatSaberMod\bin\Debug\publish
 
     - name: Build Release
@@ -41,5 +42,5 @@ jobs:
     - name: Upload Release
       uses: actions/upload-artifact@v3
       with:
-        name: BeatSaberBeatSaberMod-${{ env.ZIP_VERSION }}-RELEASE
+        name: BeatSaberMod-${{ env.ZIP_VERSION }}-RELEASE
         path: ${{ github.workspace }}\BeatSaberMod\bin\Release\publish

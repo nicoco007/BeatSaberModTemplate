@@ -1,6 +1,10 @@
 root = true
 
-[*.{bsml,csproj,csproj.user}]
+[*]
+end_of_line = crlf
+insert_final_newline = true
+
+[*.{bsml,csproj,csproj.user,targets,props}]
 indent_size = 2
 indent_style = space
 trim_trailing_whitespace = true
@@ -29,7 +33,7 @@ dotnet_diagnostic.IDE0073.severity = warning
 file_header_template = unset
 
 # this. and Me. preferences
-dotnet_diagnostic.IDE0003.severity = none
+dotnet_diagnostic.IDE0003.severity = warning
 dotnet_diagnostic.IDE0009.severity = warning
 dotnet_style_qualification_for_event = false
 dotnet_style_qualification_for_field = false
@@ -375,17 +379,19 @@ csharp_style_prefer_extended_property_pattern = true:suggestion
 csharp_style_namespace_declarations = block_scoped:silent
 csharp_style_prefer_method_group_conversion = true:silent
 
-[*.{cs,vb}]
-tab_width = 4
-indent_size = 4
-dotnet_style_operator_placement_when_wrapping = beginning_of_line
-dotnet_style_readonly_field = true:warning
-dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
-dotnet_style_coalesce_expression = true:warning
-dotnet_style_null_propagation = true:warning
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
-dotnet_style_prefer_auto_properties = true:warning
-dotnet_style_object_initializer = true:suggestion
-dotnet_style_collection_initializer = true:suggestion
-dotnet_style_prefer_simplified_boolean_expressions = true:warning
-dotnet_style_prefer_conditional_expression_over_assignment = true:suggestion
+# Ignore StyleCop analyzers that conflict with naming rules above
+dotnet_diagnostic.SA1101.severity = silent
+dotnet_diagnostic.SA1300.severity = silent
+dotnet_diagnostic.SA1303.severity = silent
+dotnet_diagnostic.SA1309.severity = silent
+
+# Ignore StyleCop rules that don't make sense for Harmony patches
+[**/Patches/*.cs]
+dotnet_diagnostic.SA1309.severity = silent
+dotnet_diagnostic.SA1313.severity = silent
+dotnet_diagnostic.SA1649.severity = silent
+
+# Don't require documentation for Plugin classes
+[**/Plugin.cs]
+dotnet_diagnostic.CS1591.severity = silent
+dotnet_diagnostic.SA1600.severity = silent
