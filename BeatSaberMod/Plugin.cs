@@ -10,6 +10,5 @@ public class Plugin
     [Init]
     public Plugin(Config config, Logger logger)
     {
-
     }
 }

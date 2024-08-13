@@ -13,34 +13,20 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Check out
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Set up environment
-      run: ${{ github.workspace }}\.github\workflows\set_up_env.ps1 "${{ github.workspace }}\BeatSaberMod\manifest.json"
-
-    - name: Fetch Beat Saber Bindings
-      run: git clone https://${{ secrets.PRIVATE_GITHUB_TOKEN }}@github.com/nicoco007/BeatSaberBindings --branch v${{ env.GAME_VERSION }} --single-branch '${{ runner.temp }}\BeatSaberBindings\Beat Saber_Data\Managed'
-
-    - name: Download dependencies
-      uses: nicoco007/download-beatmods-deps@main
+    - name: Set up Beat Saber
+      uses: nicoco007/setup-beat-saber@v1
       with:
-        manifest: ${{ github.workspace }}\BeatSaberMod\manifest.json
-        path: ${{ runner.temp }}\BeatSaberBindings
-
-    - name: Build Debug
-      run: dotnet publish ${{ github.workspace }}\BeatSaberMod\BeatSaberMod.csproj -c Debug -p:BeatSaberDir=${{ runner.temp }}\BeatSaberBindings
-
-    - name: Upload Debug
-      uses: actions/upload-artifact@v3
-      with:
-        name: BeatSaberMod-${{ env.ZIP_VERSION }}-DEBUG
-        path: ${{ github.workspace }}\BeatSaberMod\bin\Debug\publish
+        access-token: ${{ secrets.BEAT_SABER_REFERENCE_ASSEMBLIES_TOKEN }}
+        project-path: ${{ github.workspace }}\BeatSaberMod\BeatSaberMod.csproj
 
     - name: Build Release
-      run: dotnet publish ${{ github.workspace }}\BeatSaberMod\BeatSaberMod.csproj -c Release -p:BeatSaberDir=${{ runner.temp }}\BeatSaberBindings
+      id: build-release
+      run: dotnet build ${{ github.workspace }}\BeatSaberMod\BeatSaberMod.csproj -c Release
 
     - name: Upload Release
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: BeatSaberMod-${{ env.ZIP_VERSION }}-RELEASE
-        path: ${{ github.workspace }}\BeatSaberMod\bin\Release\publish
+        name: ${{ steps.build-release.outputs.artifact-name }}
+        path: ${{ steps.build-release.outputs.artifact-path }}

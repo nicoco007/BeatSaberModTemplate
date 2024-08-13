@@ -50,8 +50,8 @@
             "README.md"
           ],
           "copyOnly": [
-            "BeatSaberMod/BeatSaberMod.csproj",
-            "BeatSaberMod/Directory.build.targets"
+            "BeatSaberMod/Directory.Build.props",
+            "BeatSaberMod/Directory.Build.targets"
           ]
         }
       ]
